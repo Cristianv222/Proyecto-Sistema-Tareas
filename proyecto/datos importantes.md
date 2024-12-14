@@ -119,5 +119,3 @@ module.exports = {
   },
   plugins: [],
 }
-
-->esto añadir en el 
