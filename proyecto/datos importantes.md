@@ -1,3 +1,11 @@
+IMPORTANTE 
+para poder hacer correr el servidor se debe de poner este comando en una terminal
+
+->cd proyecto
+->npm run dev 
+
+
+
 CREATE DATABASE empresa_tareas;
 
 USE empresa_tareas;
