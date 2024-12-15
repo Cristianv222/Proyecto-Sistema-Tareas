@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
 import '../styles/Register.css';
+
 const Register = () => {
   const [formData, setFormData] = useState({
     nombre: '',
@@ -27,10 +28,14 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl mb-4 text-center">Registro</h2>
-        {error && <div className="text-red-500 mb-4">{error}</div>}
+    <div className="min-h-screen">
+      <div className="register-container">
+        {/* Imagen decorativa */}
+        <div className="register-image">
+          <img src="https://via.placeholder.com/100" alt="Registro" />
+        </div>
+        <h2 className="register-title">Registro</h2>
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -38,7 +43,7 @@ const Register = () => {
             placeholder="Nombre"
             value={formData.nombre}
             onChange={handleChange}
-            className="w-full p-2 mb-4 border rounded"
+            className="input-field"
             required
           />
           <input
@@ -47,7 +52,7 @@ const Register = () => {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full p-2 mb-4 border rounded"
+            className="input-field"
             required
           />
           <input
@@ -56,14 +61,14 @@ const Register = () => {
             placeholder="Contraseña"
             value={formData.password}
             onChange={handleChange}
-            className="w-full p-2 mb-4 border rounded"
+            className="input-field"
             required
           />
           <select
             name="rol"
             value={formData.rol}
             onChange={handleChange}
-            className="w-full p-2 mb-4 border rounded"
+            className="select-field"
             required
           >
             <option value="">Selecciona un rol</option>
@@ -72,7 +77,7 @@ const Register = () => {
           </select>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+            className="submit-button"
           >
             Registrarse
           </button>
