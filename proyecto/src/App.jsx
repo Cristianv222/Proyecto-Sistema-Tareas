@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar'; // Importa tu Navbar
 import Home from './pages/Home'; // Página de Inicio
 import About from './pages/About'; // Página "Acerca de"
-
-
+import Login from './pages/Login';
+import { authService } from './services/authService';
 function App() {
   return (
     <Router>
@@ -12,8 +12,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/login" element={<div>Login Page</div>} />
-        <Route path="/register" element={<div>Register Page</div>} />
+        <Route path="./pages/Login" element={<div>Login Page</div>} />
+        <Route path="./pages/Register" element={<div>Register Page</div>} />
       </Routes>
     </Router>
   );
