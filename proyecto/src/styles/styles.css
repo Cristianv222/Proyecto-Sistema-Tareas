@@ -2,9 +2,131 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Estilos Globales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    background-color: #474c53; /* Color oscuro */
-    color: white;
-    margin: 0;
-    font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
+  background-color: #0d86ff86;
+  color: #333;
+}
+
+/* Navbar */
+nav {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav a {
+  color: #333;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+nav a:hover {
+  background-color: #f3f4f6;
+  color: #007acc;
+}
+
+nav .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #007acc;
+}
+
+nav .menu {
+  display: flex;
+  gap: 20px;
+}
+
+nav .auth-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+nav .auth-buttons a {
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-weight: 500;
+}
+
+nav .auth-buttons .login {
+  color: #007acc;
+  border: 1px solid #007acc;
+}
+
+nav .auth-buttons .login:hover {
+  background-color: #007acc;
+  color: #ffffff;
+}
+
+nav .auth-buttons .register {
+  background-color: #007acc;
+  color: #ffffff;
+  border: 1px solid #007acc;
+}
+
+nav .auth-buttons .register:hover {
+  background-color: #005b99;
+}
+
+/* Menú Móvil */
+@media (max-width: 640px) {
+  nav .menu {
+    display: none;
   }
+
+  nav .mobile-menu {
+    display: block;
+  }
+
+  nav .mobile-menu.open {
+    display: block;
+    background-color: #f8f8f8;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  nav .mobile-menu a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+
+  nav .mobile-menu a:hover {
+    background-color: #f3f4f6;
+    color: #007acc;
+  }
+}
+
+/* Estilos Generales de Páginas */
+.page {
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
