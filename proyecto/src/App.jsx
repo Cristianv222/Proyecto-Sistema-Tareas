@@ -5,6 +5,7 @@ import Home from './pages/Home'; // Página de Inicio
 import About from './pages/About'; // Página "Acerca de"
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} /> {/* Ruta del Login */}
+        <Route path='/dashboard' element={<Dashboard/>}/>{}
       </Routes>
     </Router>
   );
