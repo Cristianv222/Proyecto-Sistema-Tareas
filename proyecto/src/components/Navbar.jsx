@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="bg-white shadow-lg">
@@ -31,6 +31,13 @@ const Navbar = () => {
               >
                 Acerca de
               </Link>
+              <Link  
+              to="/Dashboard" 
+              className="text-gray-900 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+              >
+               Dashboard
+               </Link>
+
             </div>
           </div>
 
