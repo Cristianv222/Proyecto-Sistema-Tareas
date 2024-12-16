@@ -10,12 +10,19 @@ CREATE DATABASE empresa_tareas;
 
 USE empresa_tareas;
 
+-- Tabla de roles
+CREATE TABLE roles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) UNIQUE NOT NULL
+);
+
 -- Tabla de empleados
 CREATE TABLE empleados (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
-    rol VARCHAR(50) NOT NULL,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    rol_id INT,  -- Referencia a la tabla roles
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (rol_id) REFERENCES roles(id)
 );
 
 -- Tabla de tareas
@@ -70,6 +77,7 @@ proyecto/
 │   │   ├── jwt.js
 │   │   └── otherUtils.js
 │   └── server.js
+    │--- testDB.test.js
 └── frontend/
     ├── src/
     │   ├── pages/
