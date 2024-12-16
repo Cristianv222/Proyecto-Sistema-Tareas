@@ -168,7 +168,6 @@ const Dashboard = () => {
                     <th className="px-6 py-3 text-left">Plazo</th>
                     </tr>
                     </thead>
-
                 <tbody>
                   {employees.map((employee) => (
                     <tr 

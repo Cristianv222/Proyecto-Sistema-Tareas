@@ -1,169 +1,170 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import user from '../imagenes/user.png';
+import { Trash2, Eye } from 'lucide-react';
 
-const Tasks = () => {
-  // Estado para las tareas
-  const [tasks, setTasks] = useState([
-    { id: 1, name: "Implementar Dashboard", start: "08:00", end: "10:00", status: "En Progreso" },
-    { id: 2, name: "Diseñar Logo", start: "11:00", end: "13:00", status: "Pendiente" },
-    { id: 3, name: "Reunión de Proyecto", start: "11:00", end: "13:00", status: "Completada" },
-  ]);
-
+const Dashboard = () => {
+  const [employees, setEmployees] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState({
-    name: "",
-    start: "",
-    end: "",
-    status: "Pendiente",
+    title: '',
+    startTime: '',
+    endTime: '',
+    totalHours: '',
+    status: 'Pendiente',
   });
 
-  // Estado para los empleados
-  const [employees, setEmployees] = useState([
-    { id: 1, name: "Juan Perez", attendance: "Presente", role: "Desarrollador", acceptedTasks: 3 },
-    { id: 2, name: "Maria Lopez", attendance: "Ausente", role: "Diseñadora", acceptedTasks: 5 },
-  ]);
-
-  const [newEmployee, setNewEmployee] = useState({
-    name: "",
-    attendance: "Presente",
-    role: "",
-    acceptedTasks: 0,
-  });
+  useEffect(() => {
+    const mockEmployees = [
+      { id: 1, nombre: 'Juan Pérez', asistencia: 'Presente', rol: 'Desarrollador', tareasAceptadas: 3 },
+      { id: 2, nombre: 'María López', asistencia: 'Ausente', rol: 'Diseñadora', tareasAceptadas: 5 },
+    ];
+    const mockTasks = [
+      { id: 1, title: 'Implementar Dashboard', startTime: '08:00', endTime: '10:00', totalHours: '-', status: 'En Progreso' },
+      { id: 2, title: 'Diseñar Logo', startTime: '11:00', endTime: '13:00', totalHours: '-', status: 'Pendiente' },
+      { id: 3, title: 'Reunión de Proyecto', startTime: '11:00', endTime: '13:00', totalHours: '-', status: 'Completada' },
+    ];
+    setEmployees(mockEmployees);
+    setTasks(mockTasks);
+  }, []);
 
   const addTask = () => {
-    const totalHours = calculateTotalHours(newTask.start, newTask.end);
-    setTasks([
-      ...tasks,
-      { ...newTask, id: tasks.length + 1, totalHours: totalHours },
-    ]);
-    setNewTask({ name: "", start: "", end: "", status: "Pendiente" });
+    let totalHours = '-';
+    if (newTask.startTime && newTask.endTime) {
+      const [startH, startM] = newTask.startTime.split(':');
+      const [endH, endM] = newTask.endTime.split(':');
+      const startTimeMinutes = parseInt(startH) * 60 + parseInt(startM);
+      const endTimeMinutes = parseInt(endH) * 60 + parseInt(endM);
+      totalHours = ((endTimeMinutes - startTimeMinutes) / 60).toFixed(2) + ' hrs';
+    }
+
+    const newTaskItem = {
+      id: tasks.length + 1,
+      title: newTask.title,
+      startTime: newTask.startTime || '--:--',
+      endTime: newTask.endTime || '--:--',
+      totalHours,
+      status: newTask.status,
+    };
+
+    setTasks([...tasks, newTaskItem]);
+    setNewTask({ title: '', startTime: '', endTime: '', totalHours: '', status: 'Pendiente' });
   };
 
-  const addEmployee = () => {
-    setEmployees([
-      ...employees,
-      { ...newEmployee, id: employees.length + 1 },
-    ]);
-    setNewEmployee({ name: "", attendance: "Presente", role: "", acceptedTasks: 0 });
+  const deleteTask = (taskId) => {
+    const filteredTasks = tasks.filter((task) => task.id !== taskId);
+    setTasks(filteredTasks);
   };
 
-  const calculateTotalHours = (start, end) => {
-    const startTime = new Date(`2023-01-01T${start}`);
-    const endTime = new Date(`2023-01-01T${end}`);
-    const diff = (endTime - startTime) / (1000 * 60 * 60);
-    return diff > 0 ? diff : 0;
+  const deleteEmployee = (employeeId) => {
+    const filteredEmployees = employees.filter((emp) => emp.id !== employeeId);
+    setEmployees(filteredEmployees);
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.wrapper}> {/* Espaciado para evitar conflicto con el Navbar */}
-        <div style={styles.box}>
-          <h2 style={styles.title}>Tareas</h2>
-          <table style={styles.table}>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Hora de Inicio</th>
-                <th>Hora de Fin</th>
-                <th>Total de Horas</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tasks.map((task) => (
-                <tr key={task.id}>
-                  <td>{task.name}</td>
-                  <td>{task.start}</td>
-                  <td>{task.end}</td>
-                  <td>{task.totalHours || "-"}</td>
-                  <td>{task.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <h3>Crear Tarea</h3>
-          <div style={styles.form}>
-            <input
-              style={styles.input}
-              type="text"
-              placeholder="Nombre de la tarea"
-              value={newTask.name}
-              onChange={(e) => setNewTask({ ...newTask, name: e.target.value })}
-            />
-            <input
-              style={styles.input}
-              type="time"
-              value={newTask.start}
-              onChange={(e) => setNewTask({ ...newTask, start: e.target.value })}
-            />
-            <input
-              style={styles.input}
-              type="time"
-              value={newTask.end}
-              onChange={(e) => setNewTask({ ...newTask, end: e.target.value })}
-            />
-            <button style={styles.button} onClick={addTask}>
-              Agregar Tarea
-            </button>
-          </div>
+    <div className="min-h-screen bg-blue-100 p-8">
+      <div className="container mx-auto">
+        {/* Panel Superior */}
+        <div className="mb-8 shadow-md rounded-lg p-6 bg-white flex justify-between items-center">
+          <h1 className="text-3xl font-bold">Panel de Gestión</h1>
+          <img src={user} alt="Usuario" className="w-10 h-10 rounded-full border-2 border-blue-300" />
         </div>
 
-        <div style={styles.box}> {/* Caja separada para empleados */}
-          <h2 style={styles.title}>Gestión de Empleados</h2>
-          <table style={styles.table}>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Asistencia</th>
-                <th>Rol/Cargo</th>
-                <th>Tareas Aceptadas</th>
-              </tr>
-            </thead>
-            <tbody>
-              {employees.map((employee) => (
-                <tr key={employee.id}>
-                  <td>{employee.name}</td>
-                  <td>{employee.attendance}</td>
-                  <td>{employee.role}</td>
-                  <td>{employee.acceptedTasks}</td>
+        <div className="grid grid-cols-2 gap-8">
+          {/* Tabla de Tareas */}
+          <div className="rounded-lg shadow-md p-4 bg-white">
+            <h2 className="text-xl font-semibold mb-4">Tareas</h2>
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="border-b">
+                  <th className="p-2 text-left">Nombre</th>
+                  <th className="p-2">Hora de Inicio</th>
+                  <th className="p-2">Hora de Fin</th>
+                  <th className="p-2">Total de Horas</th>
+                  <th className="p-2">Estado</th>
+                  <th className="p-2">Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {tasks.map((task) => (
+                  <tr key={task.id} className="border-b text-center">
+                    <td className="p-2 text-left">{task.title}</td>
+                    <td>{task.startTime}</td>
+                    <td>{task.endTime}</td>
+                    <td>{task.totalHours}</td>
+                    <td>{task.status}</td>
+                    <td>
+                      <button onClick={() => deleteTask(task.id)} className="text-red-600 hover:text-red-800">
+                        <Trash2 size={20} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {/* Formulario de Tareas */}
+            <div className="mt-4">
+              <input
+                type="text"
+                placeholder="Nombre de la tarea"
+                className="border rounded p-2 w-full mb-2"
+                value={newTask.title}
+                onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
+              />
+              <div className="flex gap-2">
+                <input
+                  type="time"
+                  className="border rounded p-2 w-1/2"
+                  value={newTask.startTime}
+                  onChange={(e) => setNewTask({ ...newTask, startTime: e.target.value })}
+                />
+                <input
+                  type="time"
+                  className="border rounded p-2 w-1/2"
+                  value={newTask.endTime}
+                  onChange={(e) => setNewTask({ ...newTask, endTime: e.target.value })}
+                />
+              </div>
+              <button onClick={addTask} className="mt-4 w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
+                Agregar Tarea
+              </button>
+            </div>
+          </div>
 
-          <h3>Agregar Empleado</h3>
-          <div style={styles.form}>
-            <input
-              style={styles.input}
-              type="text"
-              placeholder="Nombre del empleado"
-              value={newEmployee.name}
-              onChange={(e) => setNewEmployee({ ...newEmployee, name: e.target.value })}
-            />
-            <select
-              style={styles.input}
-              value={newEmployee.attendance}
-              onChange={(e) => setNewEmployee({ ...newEmployee, attendance: e.target.value })}
-            >
-              <option value="Presente">Presente</option>
-              <option value="Ausente">Ausente</option>
-            </select>
-            <input
-              style={styles.input}
-              type="text"
-              placeholder="Rol/Cargo"
-              value={newEmployee.role}
-              onChange={(e) => setNewEmployee({ ...newEmployee, role: e.target.value })}
-            />
-            <input
-              style={styles.input}
-              type="number"
-              placeholder="Tareas aceptadas"
-              value={newEmployee.acceptedTasks}
-              onChange={(e) => setNewEmployee({ ...newEmployee, acceptedTasks: parseInt(e.target.value) || 0 })}
-            />
-            <button style={styles.button} onClick={addEmployee}>
-              Agregar Empleado
-            </button>
+          {/* Tabla de Empleados */}
+          <div className="rounded-lg shadow-md p-4 bg-white">
+            <h2 className="text-xl font-semibold mb-4">Gestión de Empleados</h2>
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="border-b">
+                  <th className="p-2 text-left">Nombre</th>
+                  <th className="p-2">Asistencia</th>
+                  <th className="p-2">Rol/Cargo</th>
+                  <th className="p-2">Tareas Aceptadas</th>
+                  <th className="p-2">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {employees.map((emp) => (
+                  <tr key={emp.id} className="border-b text-center">
+                    <td className="p-2 text-left">{emp.nombre}</td>
+                    <td>{emp.asistencia}</td>
+                    <td>{emp.rol}</td>
+                    <td>{emp.tareasAceptadas}</td>
+                    <td>
+                      <button
+                        onClick={() => deleteEmployee(emp.id)}
+                        className="text-red-600 hover:text-red-800 mr-2"
+                      >
+                        <Trash2 size={20} />
+                      </button>
+                      <button className="text-blue-600 hover:text-blue-800">
+                        <Eye size={20} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -171,69 +172,4 @@ const Tasks = () => {
   );
 };
 
-const styles = {
-    container: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "100vh",
-      backgroundColor: "#f0f0f0",
-      paddingTop: "0px", // Ajuste para evitar conflicto con el Navbar
-    },
-    wrapper: {
-      width: "100%",
-      display: "flex",
-      justifyContent: "space-between", // Espaciado entre las cajas
-      alignItems: "flex-start",
-      gap: "20px",
-      flexWrap: "nowrap", // Evita que las cajas se apilen
-    },
-    box: {
-      backgroundColor: "#ffffff",
-      padding: "20px",
-      borderRadius: "20px",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-      width: "48%", // Ocupa un 48% del ancho para dejar espacio entre ambas cajas
-      maxWidth: "800px",
-    },
-    title: {
-      textAlign: "center",
-      color: "#333",
-    },
-    table: {
-      width: "100%",
-      borderCollapse: "collapse",
-      marginBottom: "20px",
-    },
-    th: {
-      backgroundColor: "#007BFF",
-      color: "#ffffff",
-      padding: "10px",
-      textAlign: "left",
-    },
-    td: {
-      padding: "10px",
-      borderBottom: "1px solid #ddd",
-    },
-    form: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "10px",
-    },
-    input: {
-      padding: "10px",
-      border: "1px solid #ccc",
-      borderRadius: "5px",
-    },
-    button: {
-      padding: "10px",
-      backgroundColor: "#007BFF",
-      color: "#ffffff",
-      border: "none",
-      borderRadius: "5px",
-      cursor: "pointer",
-      fontWeight: "bold",
-    },
-  };
-
-export default Tasks;
+export default Dashboard;
