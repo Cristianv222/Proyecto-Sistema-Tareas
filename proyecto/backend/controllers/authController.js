@@ -4,12 +4,12 @@ import { executeQuery } from '../config/db.js';
 
 export const register = async (req, res) => {
   try {
-    const { nombre, email, password, rol } = req.body;
+    const { nombre, password, rol } = req.body;
 
     // Verificar si el usuario ya existe
     const existingUser = await executeQuery(
-      'SELECT * FROM empleados WHERE email = ?', 
-      [email]
+      'SELECT * FROM empleados WHERE nombre = ?', 
+      [nombre]
     );
 
     if (existingUser.length > 0) {
@@ -22,8 +22,8 @@ export const register = async (req, res) => {
 
     // Insertar nuevo empleado
     const result = await executeQuery(
-      'INSERT INTO empleados (nombre, email, password, rol) VALUES (?, ?, ?, ?)',
-      [nombre, email, hashedPassword, rol]
+      'INSERT INTO empleados (nombre, password, rol_id) VALUES (?, ?, ?)',
+      [nombre, hashedPassword, rol]
     );
 
     res.status(201).json({ 
@@ -37,12 +37,12 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { nombre, password } = req.body;
 
     // Buscar usuario
     const users = await executeQuery(
-      'SELECT * FROM empleados WHERE email = ?', 
-      [email]
+      'SELECT * FROM empleados WHERE nombre = ?', 
+      [nombre]
     );
 
     if (users.length === 0) {
@@ -60,7 +60,7 @@ export const login = async (req, res) => {
 
     // Generar token
     const token = jwt.sign(
-      { id: user.id, nombre: user.nombre, rol: user.rol },
+      { id: user.id, nombre: user.nombre, rol_id: user.rol_id },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
@@ -70,7 +70,7 @@ export const login = async (req, res) => {
       user: { 
         id: user.id, 
         nombre: user.nombre, 
-        rol: user.rol 
+        rol_id: user.rol_id 
       } 
     });
   } catch (error) {
