@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'; 
+import user from '../imagenes/user.png';
 import { 
   Users, 
   ClipboardList, 
@@ -79,7 +80,7 @@ const Dashboard = () => {
               Activo
             </div>
             <img 
-              src="/api/placeholder/40/40" 
+              src={user} 
               alt="Usuario" 
               className="w-10 h-10 rounded-full border-2 border-blue-300"
             />
