@@ -6,7 +6,7 @@ import About from './pages/About'; // Página "Acerca de"
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-
+import Gestion from './pages/Gestion';
 
 function App() {
   return (
@@ -17,7 +17,8 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} /> {/* Ruta del Login */}
-        <Route path='/dashboard' element={<Dashboard/>}/>{}
+        <Route path='/dashboard' element={<Dashboard/>} />
+        <Route path='/gestion' element={<Gestion/>} />
       </Routes>
     </Router>
   );

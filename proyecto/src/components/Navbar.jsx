@@ -37,6 +37,12 @@ const [isOpen, setIsOpen] = useState(false);
               >
                Dashboard
                </Link>
+               <Link 
+                to="/gestion" 
+                className="text-gray-900 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Gestion
+              </Link>
 
             </div>
           </div>
