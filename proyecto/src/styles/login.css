@@ -1,62 +1,113 @@
+/* Fondo de la página */
 .min-h-screen {
-    background-color: #e0f7fa; /* Fondo celeste */
+    background: linear-gradient(to right, #b3e5fc, #81d4fa); /* Gradiente celeste */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1rem;
   }
   
-  .bg-white {
-    background-color: #ffffff;
-    border: 2px solid #4fc3f7; /* Borde celeste más definido */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra más notoria */
-    color: #01579b; /* Texto interno del cuadro */
+  /* Estilos del cuadro de inicio de sesión */
+  .login-container {
+    background: rgba(255, 255, 255, 0.95); /* Fondo blanco translúcido */
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra */
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
-  .shadow-md {
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  .login-container:hover {
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* Sombra más intensa */
   }
   
-  .text-2xl {
-    color: #00796b; /* Color verde para el título */
+  /* Imagen decorativa */
+  .login-image {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .login-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Título */
+  .login-title {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #333333;
     font-weight: bold;
   }
   
-  .text-red-500 {
-    color: #e57373; /* Color de error más sutil */
+  /* Campos de entrada */
+  .input-field {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
   
-  .w-full {
-    border: 1px solid #81d4fa; /* Bordes celestes para inputs */
-    border-radius: 6px; /* Bordes redondeados */
-    transition: all 0.3s;
-  }
-  
-  .w-full:focus {
+  .input-field:focus {
     outline: none;
-    border-color: #0288d1; /* Color más oscuro al enfocar */
-    box-shadow: 0 0 8px rgba(2, 136, 209, 0.4);
+    border-color: #0288d1;
+    box-shadow: 0 0 0 3px rgba(3, 169, 244, 0.3);
   }
   
-  .bg-blue-500 {
-    background-color: #0288d1; /* Azul fuerte para el botón */
+  /* Botón */
+  .submit-button {
+    width: 100%;
+    background-color: #0288d1;
+    color: #ffffff;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
   }
   
-  .bg-blue-500:hover {
-    background-color: #01579b; /* Azul más oscuro en hover */
+  .submit-button:hover {
+    background-color: #026aa7;
+    transform: translateY(-2px); /* Levanta ligeramente el botón */
   }
   
-  .p-8 {
-    padding: 2.5rem; /* Más espacio interno */
+  /* Mensaje de error */
+  .error-message {
+    color: #e53935;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    text-align: center;
   }
   
-  .rounded-lg {
-    border-radius: 12px; /* Bordes redondeados */
+  /* Enlace de registro */
+  .register-link {
+    color: #0288d1;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
   }
   
-  input, select, button {
-    border-radius: 8px; /* Bordes más suaves */
-    padding: 0.8rem; /* Espaciado interno más amplio */
+  .register-link:hover {
+    color: #026aa7;
   }
+
   
-  button {
-    font-weight: 600;
-    text-transform: uppercase; /* Texto destacado */
-  }
   

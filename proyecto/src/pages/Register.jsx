@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
+import Login from '../imagenes/login.png';
 import '../styles/Register.css';
 
 const Register = () => {
@@ -32,7 +33,7 @@ const Register = () => {
       <div className="register-container">
         {/* Imagen decorativa */}
         <div className="register-image">
-          <img src="https://via.placeholder.com/100" alt="Registro" />
+          <img src={Login} alt="Registro" />
         </div>
         <h2 className="register-title">Registro</h2>
         {error && <div className="error-message">{error}</div>}

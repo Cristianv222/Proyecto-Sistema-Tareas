@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
+import usuario from '../imagenes/login.png';
 import '../styles/login.css';
+
+
 const Login = () => {
   const [credentials, setCredentials] = useState({
     email: '',
@@ -17,7 +20,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await authService.login(credentials);
+      await authService.login(credentials);
       navigate('/dashboard');
     } catch (error) {
       setError(error.message);
@@ -25,10 +28,16 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h2 className="text-2xl mb-4 text-center">Iniciar Sesión</h2>
-        {error && <div className="text-red-500 mb-4">{error}</div>}
+    <div className="min-h-screen">
+      <div className="login-container">
+        {/* Imagen decorativa */}
+        <div className="login-image">
+          <img src={usuario} alt="Login" />
+        </div>
+
+      
+        <h2 className="login-title">Iniciar Sesión</h2>
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
           <input
             type="email"
@@ -36,7 +45,7 @@ const Login = () => {
             placeholder="Email"
             value={credentials.email}
             onChange={handleChange}
-            className="w-full p-2 mb-4 border rounded"
+            className="input-field"
             required
           />
           <input
@@ -45,19 +54,19 @@ const Login = () => {
             placeholder="Contraseña"
             value={credentials.password}
             onChange={handleChange}
-            className="w-full p-2 mb-4 border rounded"
+            className="input-field"
             required
           />
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+            className="submit-button"
           >
             Iniciar Sesión
           </button>
         </form>
         <p className="mt-4 text-center">
           ¿No tienes una cuenta? 
-          <a href="/register" className="text-blue-500 ml-1">Regístrate</a>
+          <a href="/register" className="register-link">Regístrate</a>
         </p>
       </div>
     </div>
