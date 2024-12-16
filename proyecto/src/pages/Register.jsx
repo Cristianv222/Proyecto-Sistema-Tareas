@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../services/authService';
+  // Asegúrate de que este archivo exista y esté configurado correctamente
 import Login from '../imagenes/login.png';
 import '../styles/Register.css';
 
@@ -9,24 +9,62 @@ const Register = () => {
     nombre: '',
     email: '',
     password: '',
-    rol: ''
+    rol_id: '' // Cambié "rol" a "rol_id" para almacenar el id del rol
   });
+  const [roles, setRoles] = useState([]); // Para almacenar los roles disponibles
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  // Maneja los cambios de los inputs
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Valida el formulario antes de enviarlo
+  const validateForm = () => {
+    if (!formData.nombre || !formData.email || !formData.password || !formData.rol_id) {
+      setError('Todos los campos son obligatorios');
+      return false;
+    }
+    if (formData.password.length < 6) {
+      setError('La contraseña debe tener al menos 6 caracteres');
+      return false;
+    }
+    return true;
+  };
+
+  // Maneja el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validar formulario
+    if (!validateForm()) {
+      return;
+    }
+    console.log("Datos del formulario", formData);  // Verifica los valores antes de enviarlos
     try {
+      // Llamada al servicio para registrar al usuario
       await authService.register(formData);
+      // Redirigir al login si el registro es exitoso
       navigate('/login');
     } catch (error) {
-      setError(error.message);
+      // Captura errores y muestra un mensaje apropiado
+      setError(error.response?.data?.message || 'Error en el registro');
     }
   };
+
+  // Cargar los roles desde el backend al inicio
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const response = await authService.getRoles(); // Asegúrate de que el backend tenga este endpoint
+        setRoles(response.data); // Suponiendo que la respuesta es un array de roles
+      } catch (error) {
+        setError('No se pudieron cargar los roles');
+      }
+    };
+    fetchRoles();
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -66,15 +104,18 @@ const Register = () => {
             required
           />
           <select
-            name="rol"
-            value={formData.rol}
+            name="rol_id" // Cambié "rol" por "rol_id" para enviar el id del rol
+            value={formData.rol_id}
             onChange={handleChange}
             className="select-field"
             required
           >
             <option value="">Selecciona un rol</option>
-            <option value="Administrador">Administrador</option>
-            <option value="Empleado">Empleado</option>
+            {roles.map((role) => (
+              <option key={role.id} value={role.id}>
+                {role.nombre} {/* Mostrar el nombre del rol */}
+              </option>
+            ))}
           </select>
           <button
             type="submit"
