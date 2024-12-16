@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'; 
 import user from '../imagenes/user.png';
+
 import { 
   Users, 
   ClipboardList, 
@@ -224,5 +225,4 @@ const Dashboard = () => {
     </div>
   );
 };
-
 export default Dashboard;
