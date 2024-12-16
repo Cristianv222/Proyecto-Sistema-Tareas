@@ -160,7 +160,7 @@ const Dashboard = () => {
             <div className="overflow-x-auto">
               <table className="w-full">
               <thead>
-                <tr className="bg-blue-450 text-white text-sm"> {/* Color azul oscuro */}
+                <tr className="bg-blue-450 text-blue-450 text-sm"> {/* Color azul oscuro */}
                     <th className="px-6 py-3 text-left">Título</th>
                     <th className="px-6 py-3 text-left">Estado</th>
                     <th className="px-6 py-3 text-left">Plazo</th>
