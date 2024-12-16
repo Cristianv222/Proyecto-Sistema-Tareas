@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-  // Asegúrate de que este archivo exista y esté configurado correctamente
+import { authService } from '../services/authService'; // Asegúrate de que este archivo exista y esté configurado correctamente
 import Login from '../imagenes/login.png';
 import '../styles/Register.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
     nombre: '',
-    email: '',
     password: '',
-    rol_id: '' // Cambié "rol" a "rol_id" para almacenar el id del rol
   });
-  const [roles, setRoles] = useState([]); // Para almacenar los roles disponibles
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -22,7 +19,7 @@ const Register = () => {
 
   // Valida el formulario antes de enviarlo
   const validateForm = () => {
-    if (!formData.nombre || !formData.email || !formData.password || !formData.rol_id) {
+    if (!formData.nombre || !formData.password) {
       setError('Todos los campos son obligatorios');
       return false;
     }
@@ -53,19 +50,6 @@ const Register = () => {
     }
   };
 
-  // Cargar los roles desde el backend al inicio
-  useEffect(() => {
-    const fetchRoles = async () => {
-      try {
-        const response = await authService.getRoles(); // Asegúrate de que el backend tenga este endpoint
-        setRoles(response.data); // Suponiendo que la respuesta es un array de roles
-      } catch (error) {
-        setError('No se pudieron cargar los roles');
-      }
-    };
-    fetchRoles();
-  }, []);
-
   return (
     <div className="min-h-screen">
       <div className="register-container">
@@ -86,15 +70,6 @@ const Register = () => {
             required
           />
           <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            className="input-field"
-            required
-          />
-          <input
             type="password"
             name="password"
             placeholder="Contraseña"
@@ -103,20 +78,6 @@ const Register = () => {
             className="input-field"
             required
           />
-          <select
-            name="rol_id" // Cambié "rol" por "rol_id" para enviar el id del rol
-            value={formData.rol_id}
-            onChange={handleChange}
-            className="select-field"
-            required
-          >
-            <option value="">Selecciona un rol</option>
-            {roles.map((role) => (
-              <option key={role.id} value={role.id}>
-                {role.nombre} {/* Mostrar el nombre del rol */}
-              </option>
-            ))}
-          </select>
           <button
             type="submit"
             className="submit-button"
