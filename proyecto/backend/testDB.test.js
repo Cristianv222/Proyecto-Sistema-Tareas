@@ -1,11 +1,13 @@
-import db from "./config/db";
-//Hacer una consulta simple a la base de datos
-connection.query('SELECT 1 + 1 AS solution', (err, results) => {
-  if (err) {
-    console.error('Error en la consulta:', err);
-  } else {
-    console.log('La prueba de la base de datos fue exitosa:', results[0].solution); // Debería devolver 2
-  }
-  // Cerrar la conexión después de la prueba
-  connection.end();
-});
+import pool from './config/db.js'; // Asegúrate de tener la extensión '.js'
+
+async function testConnection() {
+    try {
+        const [rows] = await pool.query('SELECT 1 + 1 AS result');
+        console.log('Conexión exitosa con la base de datos');
+        console.log('Resultado de la prueba:', rows[0].result);
+    } catch (error) {
+        console.error('Error al conectar con la base de datos:', error.message);
+    }
+}
+
+testConnection();
